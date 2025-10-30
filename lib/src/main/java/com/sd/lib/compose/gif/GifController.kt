@@ -25,6 +25,8 @@ internal open class GifControllerImpl : GifController {
 
   @Volatile
   private var _shouldPlay = true
+
+  @Volatile
   private var _loopCount = 0
 
   fun getDrawable(): Drawable? {
