@@ -36,7 +36,9 @@ private fun Content(
 ) {
   val controller = rememberGifController(R.drawable.anim_role_blink) {
     // 停止播放
-//    stopPlay()
+    stopPlay()
+    // 设置循环次数，默认0-无限循环
+    setLoopCount(3)
   }
 
   Column(

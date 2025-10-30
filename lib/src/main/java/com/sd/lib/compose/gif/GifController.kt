@@ -7,9 +7,17 @@ import androidx.compose.runtime.setValue
 import pl.droidsonroids.gif.GifDrawable
 
 interface GifController {
+  /** 是否正在播放 */
   fun isPlaying(): Boolean
+
+  /** 开始播放 */
   fun startPlay()
+
+  /** 停止播放 */
   fun stopPlay()
+
+  /** 设置循环播放次数[0-65535]，默认0-无限循环 */
+  fun setLoopCount(loopCount: Int)
 }
 
 internal open class GifControllerImpl : GifController {
@@ -17,6 +25,7 @@ internal open class GifControllerImpl : GifController {
 
   @Volatile
   private var _shouldPlay = true
+  private var _loopCount = 0
 
   fun getDrawable(): Drawable? {
     return _gifDrawable
@@ -44,7 +53,14 @@ internal open class GifControllerImpl : GifController {
     updatePlayState()
   }
 
+  override fun setLoopCount(loopCount: Int) {
+    val safeCount = loopCount.coerceAtMost(MAX_LOOP_COUNT)
+    _loopCount = safeCount
+    _gifDrawable?.loopCount = safeCount
+  }
+
   private fun updatePlayState() {
+    _gifDrawable?.loopCount = _loopCount
     if (_shouldPlay) {
       _gifDrawable?.start()
     } else {
@@ -53,3 +69,5 @@ internal open class GifControllerImpl : GifController {
     }
   }
 }
+
+private const val MAX_LOOP_COUNT = 65535
