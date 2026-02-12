@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import pl.droidsonroids.gif.GifDrawable
 
 @Composable
-fun rememberGifController(
+fun rememberGifControllerWithResource(
   @RawRes @DrawableRes resId: Int,
   onError: (Throwable) -> Unit = {},
   init: GifController.() -> Unit = {},

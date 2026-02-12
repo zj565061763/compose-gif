@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sd.demo.compose.gif.theme.AppTheme
 import com.sd.lib.compose.gif.GifView
-import com.sd.lib.compose.gif.rememberGifController
+import com.sd.lib.compose.gif.rememberGifControllerWithResource
 
 class SampleActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class SampleActivity : ComponentActivity() {
 private fun Content(
   modifier: Modifier = Modifier,
 ) {
-  val controller = rememberGifController(R.drawable.anim_role_blink) {
+  val controller = rememberGifControllerWithResource(R.drawable.anim_role_blink) {
     // 停止播放
     stopPlay()
     // 设置循环次数，默认0-无限循环
