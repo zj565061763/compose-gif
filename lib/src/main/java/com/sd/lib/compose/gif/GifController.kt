@@ -34,8 +34,9 @@ internal open class GifControllerImpl : GifController {
   }
 
   fun setDrawable(drawable: GifDrawable?) {
-    if (_gifDrawable != drawable) {
-      runCatching { _gifDrawable?.recycle() }
+    val oldDrawable = _gifDrawable
+    if (oldDrawable != drawable) {
+      runCatching { oldDrawable?.recycle() }
       _gifDrawable = drawable
       updatePlayState()
     }
@@ -56,9 +57,10 @@ internal open class GifControllerImpl : GifController {
   }
 
   override fun setLoopCount(loopCount: Int) {
-    val safeCount = loopCount.coerceAtMost(MAX_LOOP_COUNT)
-    _loopCount = safeCount
-    _gifDrawable?.loopCount = safeCount
+    loopCount.coerceIn(0, 65535).also { safeCount ->
+      _loopCount = safeCount
+      _gifDrawable?.loopCount = safeCount
+    }
   }
 
   private fun updatePlayState() {
@@ -71,5 +73,3 @@ internal open class GifControllerImpl : GifController {
     }
   }
 }
-
-private const val MAX_LOOP_COUNT = 65535
